@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PetPulse — Find Your Next Best Friend</title>
+  <meta name="description" content="PetPulse helps you find adoptable dogs and cats from shelters near you.">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    try { const t = localStorage.getItem("petpulse-theme"); if (t) document.documentElement.dataset.bsTheme = t; } catch {}
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top glass-nav">
+    <div class="container">
+      <a class="navbar-brand fw-black" href="#">🐾 Pet<span class="text-brand">Pulse</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item"><a class="nav-link" href="#pets">Adopt</a></li>
+          <li class="nav-item"><a class="nav-link" href="#how">How it works</a></li>
+          <li class="nav-item"><a class="nav-link" href="#stories">Stories</a></li>
+          <li class="nav-item">
+            <button class="btn btn-sm btn-outline-secondary rounded-pill" type="button" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-brand rounded-pill px-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#favourites">
+              ♥ Saved <span class="badge text-bg-light ms-1" id="favCount">0</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero py-5">
+    <div class="container py-lg-5">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="badge rounded-pill hero-badge mb-3">🏠 1,240 pets found homes this year</span>
+          <h1 class="display-3 fw-black lh-1 mb-3">Every pet deserves a <span class="squiggle">heartbeat</span> at home.</h1>
+          <p class="lead text-body-secondary mb-4">PetPulse matches you with shelter dogs and cats that fit your space, schedule and energy level. No breeders, no fees hidden in fine print.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="#pets" class="btn btn-brand btn-lg rounded-pill px-4">Meet the pets</a>
+            <a href="#how" class="btn btn-outline-secondary btn-lg rounded-pill px-4">How adoption works</a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-collage">
+            <img class="rounded-4 shadow collage-a" data-dog="retriever/golden" alt="A golden retriever">
+            <img class="rounded-4 shadow collage-b" data-cat="hero-1" alt="A cat">
+            <img class="rounded-4 shadow collage-c" data-dog="beagle" alt="A beagle">
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="pets" class="py-5">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+          <div>
+            <h2 class="fw-black mb-1">Ready for adoption</h2>
+            <p class="text-body-secondary mb-0" id="resultCount" aria-live="polite"></p>
+          </div>
+          <form class="row g-2 align-items-center filters" id="filters">
+            <div class="col-auto">
+              <label class="visually-hidden" for="species">Species</label>
+              <select class="form-select rounded-pill" id="species" name="species">
+                <option value="all">All pets</option>
+                <option value="dog">Dogs</option>
+                <option value="cat">Cats</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <label class="visually-hidden" for="age">Age</label>
+              <select class="form-select rounded-pill" id="age" name="age">
+                <option value="all">Any age</option>
+                <option value="young">Young (&lt; 2 yrs)</option>
+                <option value="adult">Adult</option>
+                <option value="senior">Senior (8+)</option>
+              </select>
+            </div>
+            <div class="col-auto form-check form-switch ms-2">
+              <input class="form-check-input" type="checkbox" role="switch" id="goodWithKids" name="kids">
+              <label class="form-check-label" for="goodWithKids">Good with kids</label>
+            </div>
+          </form>
+        </div>
+        <div class="row g-4" id="petGrid"></div>
+        <p class="text-center text-body-secondary py-5 d-none" id="emptyState">No pets match those filters, but new friends arrive every week.</p>
+      </div>
+    </section>
+
+    <section id="how" class="py-5 bg-body-tertiary">
+      <div class="container">
+        <h2 class="fw-black text-center mb-5">Adoption in three steps</h2>
+        <div class="row g-4 text-center">
+          <div class="col-md-4"><div class="step-icon">🔍</div><h3 class="h5 fw-bold">Browse &amp; save</h3><p class="text-body-secondary">Filter by species, age and temperament, and save the ones that make you smile.</p></div>
+          <div class="col-md-4"><div class="step-icon">📝</div><h3 class="h5 fw-bold">Apply in 3 minutes</h3><p class="text-body-secondary">A short form tells the shelter about your home. No account needed.</p></div>
+          <div class="col-md-4"><div class="step-icon">🤝</div><h3 class="h5 fw-bold">Meet &amp; greet</h3><p class="text-body-secondary">Visit the shelter, spend time together, and take your friend home.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stories" class="py-5">
+      <div class="container">
+        <div id="storyCarousel" class="carousel slide story-card rounded-4 p-4 p-lg-5" data-bs-ride="carousel">
+          <div class="carousel-inner text-center">
+            <div class="carousel-item active">
+              <p class="fs-3 fw-bold">“Mochi was terrified of stairs. Six months later she races me to the top every morning.”</p>
+              <p class="text-body-secondary mb-0">— Ananya, adopted Mochi (cat)</p>
+            </div>
+            <div class="carousel-item">
+              <p class="fs-3 fw-bold">“The kid-friendly filter saved us. Bruno and our twins are inseparable.”</p>
+              <p class="text-body-secondary mb-0">— The Mehta family, adopted Bruno (beagle)</p>
+            </div>
+            <div class="carousel-item">
+              <p class="fs-3 fw-bold">“I almost skipped the senior dogs. Biscuit is the calmest, sweetest roommate I've ever had.”</p>
+              <p class="text-body-secondary mb-0">— Kabir, adopted Biscuit (labrador)</p>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#storyCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
+          <button class="carousel-control-next" type="button" data-bs-target="#storyCarousel" data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-4 border-top">
+    <div class="container d-flex flex-wrap justify-content-between gap-2 small text-body-secondary">
+      <span>PetPulse is a demo UI by <a href="https://github.com/himanshuuem">Himanshu</a>. Pets and stories are fictional.</span>
+      <span>Photos: <a href="https://dog.ceo/dog-api/">Dog CEO API</a> · <a href="https://cataas.com">Cat as a Service</a></span>
+    </div>
+  </footer>
+
+  <!-- Pet details + application modal -->
+  <div class="modal fade" id="petModal" tabindex="-1" aria-labelledby="petModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content rounded-4">
+        <div class="modal-header border-0">
+          <h2 class="modal-title fs-4 fw-black" id="petModalTitle"></h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-4">
+            <div class="col-md-5"><img class="img-fluid rounded-4 w-100 modal-photo" alt=""></div>
+            <div class="col-md-7">
+              <p class="modal-bio"></p>
+              <ul class="list-unstyled modal-facts small"></ul>
+              <hr>
+              <h3 class="h6 fw-bold">Apply to adopt</h3>
+              <form id="applyForm" class="needs-validation" novalidate>
+                <div class="mb-2">
+                  <label class="form-label" for="applicantName">Your name</label>
+                  <input class="form-control" id="applicantName" required minlength="2">
+                  <div class="invalid-feedback">Please enter your name.</div>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label" for="applicantPhone">Phone</label>
+                  <input class="form-control" id="applicantPhone" type="tel" required pattern="[0-9+\s-]{8,15}">
+                  <div class="invalid-feedback">Enter a valid phone number.</div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" for="home">Home type</label>
+                  <select class="form-select" id="home" required>
+                    <option value="">Choose…</option>
+                    <option>Apartment</option>
+                    <option>House with garden</option>
+                    <option>Farm / large property</option>
+                  </select>
+                  <div class="invalid-feedback">Tell us about your home.</div>
+                </div>
+                <button class="btn btn-brand rounded-pill px-4" type="submit">Send application</button>
+              </form>
+              <div class="alert alert-success mt-3 d-none" id="applySuccess" role="status"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saved pets -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="favourites" aria-labelledby="favouritesTitle">
+    <div class="offcanvas-header">
+      <h2 class="offcanvas-title h5 fw-black" id="favouritesTitle">♥ Saved pets</h2>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-group list-group-flush" id="favList"></ul>
+      <p class="text-body-secondary" id="favEmpty">Tap the heart on any pet to save them here.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
